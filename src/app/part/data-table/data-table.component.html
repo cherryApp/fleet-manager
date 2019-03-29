@@ -1,0 +1,62 @@
+<div class="row top-row">
+  <div class="col-3">
+    <select [(ngModel)]="phraseKey" class="form-control">
+      <option value="notset">find all</option>
+      <option *ngFor="let col of cols" [value]="col.key">
+        {{ col.text }}
+      </option>
+    </select>
+  </div>
+  <div class="col-9">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="fa fa-filter" aria-hidden="true"></i>
+        </span>
+      </div>
+      <input type="text" class="form-control" placeholder="filter" [(ngModel)]="phraseString">
+    </div>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th *ngFor="let col of cols">
+        {{ col.text }}
+      </th>
+      <th>actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td *ngFor="let col of cols">
+        <app-data-cell [row]="newRow" [col]="col">
+        </app-data-cell>
+      </td>
+      <td>
+        <div class="btn-group">
+          <button class="btn btn-success" (click)="onCreate(newRow)">
+            <i class="fa fa-plus"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+    <tr *ngFor="let row of list | objectArray:phraseString:phraseKey">
+      <td *ngFor="let col of cols">
+        <app-data-cell [row]="row" [col]="col">
+        </app-data-cell>
+      </td>
+      <td>
+        <div class="btn-group">
+          <button class="btn btn-info" (click)="onUpdate(row)">
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button class="btn btn-danger" (click)="onDelete(row)">
+            <i [class]="deleteIconClass"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
